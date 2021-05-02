@@ -1,5 +1,7 @@
 body {
   font-family: arial, sans-serif;
+    background: #141414;
+    overflow:hidden;
 }
 
 h1 {
@@ -163,4 +165,9 @@ input[type="text"] {
   background-color: #fcfcfc;
   border-radius: 1px;
   border: 1px solid #e9e9e9;
+}
+canvas{
+	position:absolute;
+	top:0;
+	left:0;
 }
