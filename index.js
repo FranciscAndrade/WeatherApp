@@ -24,8 +24,10 @@ let root = "https://api.openweathermap.org";
 
 let apiKey = "b769810a643ef1ab75e5a9d2936e4b47";
 
-function friendlyDay(dayNumber) {
-  let days = [
+function friendlyDay(dayNumber) 
+{
+  let days =
+  [
     "Sunday",
     "Monday",
     "Tuesday",
@@ -38,74 +40,56 @@ function friendlyDay(dayNumber) {
 }
 
 function friendlyMinutes(minutesNumber) {
-  if (minutesNumber < 10) {
-    return "0" + minutesNumber;
-  } else {
-    return minutesNumber;
-  }
+if (minutesNumber < 10) {
+return "0" + minutesNumber;
 }
-
+else 
+{
+return minutesNumber;
+}
+}
 function friendlyDate(date) {
-  let day = friendlyDay(date.getDay());
-  let hours = date.getHours();
-  let minutes = friendlyMinutes(date.getMinutes());
-  return day + " " + hours + ":" + minutes;
+let day = friendlyDay(date.getDay());
+let hours = date.getHours();
+let minutes = friendlyMinutes(date.getMinutes());
+return day + " " + hours + ":" + minutes;
 }
-
 function refreshWeather(queryParams) {
-  let apiParams = "appid=" + apiKey + "&units=metric";
-  axios
-    .get(root + "/data/2.5/weather?" + apiParams + "&" + queryParams)
-    .then(function (response) {
-      date.innerHTML = friendlyDate(new Date());
-      place.innerHTML = response.data.name;
-      description.innerHTML = response.data.weather[0].main;
-      temperature.innerHTML = Math.round(response.data.main.temp);
-      wind.innerHTML = Math.round(response.data.wind.speed) + "km/h";
-      precipitation.innerHTML = Math.round(response.data.main.humidity) + "%";
-
-      icon.setAttribute(
-        "src",
-        "http://openweathermap.org/img/w/" +
-          response.data.weather[0].icon +
-          ".png"
-      );
-    });
-  axios
-    .get(root + "/data/2.5/forecast?" + apiParams + "&" + queryParams)
-    .then(function (response) {
-      document
-        .querySelectorAll(".day__block")
-        .forEach(function (element, index) {
-          let day = new Date(response.data.list[index].dt_txt);
-          element.querySelector(".day__block-date").innerHTML = friendlyDate(
-            day
-          );
-          element.querySelector(".day__block-temp").innerHTML = Math.round(
-            response.data.list[index].main.temp
-          );
-          element
-            .querySelector(".day__block-image")
-            .setAttribute(
-              "src",
-              "http://openweathermap.org/img/w/" +
-                response.data.list[index].weather[0].icon +
-                ".png"
-            );
-        });
-    });
-}
-
-form.addEventListener("submit", function (event) {
-  refreshWeather("q=" + form.querySelector("#weather__form-location").value);
-  event.preventDefault();
+let apiParams = "appid=" + apiKey + "&units=metric";
+axios.get(root + "/data/2.5/weather?" + apiParams + "&" + queryParams).then(function (response)
+{
+date.innerHTML = friendlyDate(new Date());
+place.innerHTML = response.data.name;
+description.innerHTML = response.data.weather[0].main;
+temperature.innerHTML = Math.round(response.data.main.temp);
+wind.innerHTML = Math.round(response.data.wind.speed) + "km/h";
+precipitation.innerHTML = Math.round(response.data.main.humidity) + "%";
+icon.setAttribute("src","http://openweathermap.org/img/w/" +
+response.data.weather[0].icon +".png"
+);
 });
-refreshBtn.addEventListener("click", function () {
-  navigator.geolocation.getCurrentPosition(function (position) {
-    refreshWeather(
-      "lat=" + position.coords.latitude + "&lon=" + position.coords.longitude
-    );
-  });
+axios.get(root + "/data/2.5/forecast?" + apiParams + "&" + queryParams).then(function (response) {
+document.querySelectorAll(".day__block").forEach(function (element, index) 
+{
+let day = new Date(response.data.list[index].dt_txt);
+element.querySelector(".day__block-date").innerHTML = friendlyDate(day);
+element.querySelector(".day__block-temp").innerHTML = Math.round(
+response.data.list[index].main.temp
+);
+element.querySelector(".day__block-image").setAttribute("src","http://openweathermap.org/img/w/" + response.data.list[index].weather[0].icon +".png"
+);
+});
+});
+}
+form.addEventListener("submit", function (event) {
+refreshWeather("q=" + form.querySelector("#weather__form-location").value);
+event.preventDefault();
+});
+refreshBtn.addEventListener("click", function () 
+{
+navigator.geolocation.getCurrentPosition(function (position) {refreshWeather("lat=" + position.coords.latitude + "&lon=" + position.coords.longitude
+);
+});
 });
 
 refreshWeather("q=Porto");
